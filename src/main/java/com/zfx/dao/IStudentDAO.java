@@ -4,4 +4,6 @@ import com.zfx.pojo.StudentSSH;
 
 public interface IStudentDAO {
     int add(StudentSSH studentSSH);
+
+    void update(StudentSSH studentSSH);
 }

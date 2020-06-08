@@ -24,4 +24,9 @@ public class StudentServiceImpl implements IStudentService {
         
         return iStudentDAO.add(studentSSH);
     }
+
+    @Override
+    public void update(StudentSSH studentSSH) { 
+        iStudentDAO.update(studentSSH);
+    }
 }

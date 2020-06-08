@@ -10,5 +10,10 @@ public interface IStudentService {
      * @return
      */
     public int add(StudentSSH studentSSH);
-    
+
+    /**
+     * 修改
+     * @return
+     */
+    void update(StudentSSH studentSSH);
 }

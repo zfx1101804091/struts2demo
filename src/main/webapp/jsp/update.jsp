@@ -10,7 +10,12 @@
 <h2>添加成功 登陆认证</h2>
 <h3>
     <%--数据回显--%>
-    用户名：<s:textfield name="count" value="%{#request.count}"></s:textfield><br/>
+    <s:debug></s:debug>
+    <s:form action="update" method="post">
+        ID：<s:textfield name="count" value="%{#request.count}"></s:textfield><br/>
+        NAME：<s:textfield name="name" value="%{#request.name}"></s:textfield><br/>
+        <s:submit></s:submit>
+    </s:form>
 </h3>
 </body>
 </html>

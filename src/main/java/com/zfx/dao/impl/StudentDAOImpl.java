@@ -3,7 +3,6 @@ package com.zfx.dao.impl;
 import com.zfx.dao.IStudentDAO;
 import com.zfx.pojo.StudentSSH;
 import org.hibernate.SessionFactory;
-import org.omg.CORBA.INTERNAL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -25,5 +24,10 @@ public class StudentDAOImpl implements IStudentDAO {
     public int add(StudentSSH studentSSH) {
         Serializable count = sessionFactory.getCurrentSession().save(studentSSH);
         return (Integer) count;
+    }
+
+    @Override
+    public void update(StudentSSH studentSSH) {
+        sessionFactory.getCurrentSession().update(studentSSH);
     }
 }

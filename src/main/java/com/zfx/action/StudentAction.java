@@ -29,10 +29,9 @@ public class StudentAction extends ActionSupport {
     
     private StudentSSH studentSSH;
     private int count;
+    private String name;
 
-    public int getCount() {
-        return count;
-    }
+   
 
     @Autowired
     IStudentService iStudentService;
@@ -41,17 +40,26 @@ public class StudentAction extends ActionSupport {
      *  新增
      * @return
      */
-    @Action(value = "/add",results = {@Result(name = "success",location = "/jsp/login.jsp")})
+    @Action(value = "/add",results = {@Result(name = "success",location = "/jsp/update.jsp")})
     public String add(){
         int count = iStudentService.add(studentSSH);
        /*数据回显相关*/
         ActionContext ac= ActionContext.getContext();
         //1.首先获取到值栈
-        Map<String, Object>request=(Map<String, Object>)ac.get("request");
+        Map<String, Object> request=(Map<String, Object>)ac.get("request");
         request.put("count", count);
+        request.put("name",studentSSH.getName());
         return "success";
     }
 
+    @Action(value = "/update",results = {@Result(name = "success",location = "/index.jsp")})
+    public String update(){
+        StudentSSH studentSSH = new StudentSSH();
+        studentSSH.setId(count);
+        studentSSH.setName(name);
+        iStudentService.update(studentSSH);
+        return "success";
+    }
 
 
 
@@ -61,5 +69,20 @@ public class StudentAction extends ActionSupport {
 
     public void setStudentSSH(StudentSSH studentSSH) {
         this.studentSSH = studentSSH;
+    }
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getCount() {
+        return count;
     }
 }
