@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx   http://www.springframework.org/schema/tx/spring-tx.xsd
+">
+
+    <!--识别注解-->
+    <context:component-scan base-package="com.zfx"></context:component-scan>
+
+    <!--数据源-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driverClass}"></property>
+        <property name="jdbcUrl" value="${jdbc.jdbcUrl}"></property>
+        <property name="user" value="${jdbc.user}"></property>
+        <property name="password" value="${jdbc.password}"></property>
+    </bean>
+
+    <!--识别jdbc.properties-->
+    <context:property-placeholder location="classpath:jdbc.properties"></context:property-placeholder>
+
+    <!--sessionfactory工厂-->
+    <bean id="factory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="hibernateProperties">
+            <props>
+                <!--控制台打印SQL语句-->
+                <prop key="hibernate.show_sql">true</prop>
+                <!--格式化sql-->
+                <prop key="hibernate.format_sql">true</prop>
+                <!--方言-->
+<!--                <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>-->
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+                <!--绑定线程-->
+                <prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate5.SpringSessionContext</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
+        <!--扫描小配置文件-->
+        <!-- <property name="mappingDirectoryLocations" value="classpath:cn/sjl/beans"></property>-->
+        <property name="packagesToScan" value="com.zfx.pojo"></property>
+    </bean>
+    <!--事务管理器-->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="factory"></property>
+    </bean>
+
+    <!--事务-->
+    <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>
+</beans>
